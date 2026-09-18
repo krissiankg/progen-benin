@@ -1,0 +1,15 @@
+[build]
+  publish = "."
+
+# Empêche l'accès public aux fichiers de travail / sources
+[[redirects]]
+  from = "/_archive/*"
+  to = "/index.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/_build_progen.py"
+  to = "/index.html"
+  status = 404
+  force = true
