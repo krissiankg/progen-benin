@@ -270,3 +270,202 @@ footer .medium-icon li {
         height: 50px;
     }
 }
+/* ===================================
+    ProGen Bénin - Hero « mosaïque vivante »
+    Photos affichées à taille native (pas de zoom), sur fond dégradé.
+====================================== */
+.pg-hero {
+    --pg-navy: #052464;
+    --pg-deep: #071a3f;
+    --pg-green: #1f4a3c;
+    --pg-gold: #fbcc36;
+    position: relative;
+    overflow: hidden;
+    padding-top: 0;
+    padding-bottom: 0;
+    color: #fff;
+    background:
+        radial-gradient(60% 80% at 82% 45%, rgba(251, 204, 54, .16) 0%, rgba(251, 204, 54, 0) 60%),
+        radial-gradient(70% 90% at 5% 100%, rgba(31, 74, 60, .85) 0%, rgba(31, 74, 60, 0) 65%),
+        linear-gradient(135deg, var(--pg-deep) 0%, var(--pg-navy) 55%, #0a3a6b 100%);
+}
+/* motif concentrique inspiré des tissus wax */
+.pg-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: .09;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120' fill='none' stroke='%23fff' stroke-width='2'%3E%3Ccircle cx='60' cy='60' r='54'/%3E%3Ccircle cx='60' cy='60' r='40'/%3E%3Ccircle cx='60' cy='60' r='26'/%3E%3Ccircle cx='60' cy='60' r='12'/%3E%3C/svg%3E");
+    background-size: 120px 120px;
+    -webkit-mask-image: linear-gradient(100deg, transparent 20%, #000 75%);
+    mask-image: linear-gradient(100deg, transparent 20%, #000 75%);
+    pointer-events: none;
+}
+.pg-hero .container { position: relative; z-index: 2; }
+.pg-hero-inner {
+    min-height: min(78vh, 760px);
+    padding: 70px 0 90px;
+}
+.pg-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--pg-gold);
+    margin-bottom: 26px;
+}
+.pg-eyebrow::before {
+    content: "";
+    width: 38px;
+    height: 2px;
+    background: var(--pg-gold);
+}
+.pg-title {
+    font-family: var(--alt-font);
+    font-size: clamp(40px, 5.2vw, 78px);
+    line-height: 1.04;
+    letter-spacing: -2px;
+    margin-bottom: 28px;
+    color: #fff;
+}
+.pg-title em {
+    font-style: normal;
+    background: linear-gradient(90deg, #fbcc36 0%, #f3a83b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.pg-lead {
+    font-size: 19px;
+    line-height: 30px;
+    max-width: 520px;
+    color: rgba(255, 255, 255, .86);
+    margin-bottom: 34px;
+}
+.pg-proof {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 26px;
+    margin-top: 38px;
+    padding-top: 26px;
+    border-top: 1px solid rgba(255, 255, 255, .18);
+    max-width: 520px;
+}
+.pg-proof span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .8);
+}
+.pg-proof i { color: var(--pg-gold); font-size: 15px; }
+
+/* composition de photos */
+.pg-mosaic {
+    position: relative;
+    height: 540px;
+    max-width: 600px;
+    margin-left: auto;
+}
+.pg-card {
+    position: absolute;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 22px;
+    border: 6px solid rgba(255, 255, 255, .96);
+    box-shadow: 0 30px 60px -18px rgba(0, 0, 0, .55);
+    background: #0b1f4a;
+    transition: transform .35s cubic-bezier(.2, .7, .2, 1);
+    will-change: transform;
+}
+.pg-card img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.pg-card--a { width: 400px; height: 250px; top: 0; right: 0; transform: translate(var(--px, 0), var(--py, 0)) rotate(2.5deg); animation: pg-float 9s ease-in-out infinite; }
+.pg-card--b { width: 320px; height: 240px; top: 215px; left: 0; z-index: 2; transform: translate(var(--px, 0), var(--py, 0)) rotate(-3deg); animation: pg-float 10s ease-in-out -3s infinite; }
+.pg-card--c { width: 230px; height: 230px; bottom: 0; right: 28px; z-index: 3; border-radius: 50%; transform: translate(var(--px, 0), var(--py, 0)); animation: pg-float 8s ease-in-out -5s infinite; }
+.pg-ring {
+    position: absolute;
+    right: -26px;
+    top: 150px;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 2px dashed rgba(251, 204, 54, .55);
+    animation: pg-spin 40s linear infinite;
+}
+.pg-badge {
+    position: absolute;
+    left: 30px;
+    bottom: 12px;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px 14px 14px;
+    border-radius: 16px;
+    background: #fff;
+    color: var(--pg-navy);
+    box-shadow: 0 20px 40px -12px rgba(0, 0, 0, .5);
+}
+.pg-badge-icon {
+    width: 46px;
+    height: 46px;
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #1f4a3c, #b7881d);
+    color: #fff;
+    font-size: 20px;
+}
+.pg-badge strong { display: block; font-size: 15px; line-height: 18px; }
+.pg-badge small { display: block; font-size: 12px; line-height: 16px; color: #5c6477; }
+
+/* courbe de transition vers la section suivante */
+.pg-hero-wave { position: absolute; left: 0; right: 0; bottom: -1px; height: 54px; z-index: 1; line-height: 0; }
+.pg-hero-wave svg { width: 100%; height: 100%; display: block; }
+
+@keyframes pg-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
+@keyframes pg-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+    .pg-card, .pg-ring { animation: none; }
+}
+
+@media (max-width: 1199px) {
+    .pg-mosaic { transform: scale(.88); transform-origin: right center; }
+}
+@media (max-width: 991px) {
+    .pg-hero-inner { min-height: 0; padding: 40px 0 70px; }
+    .pg-title { letter-spacing: -1px; }
+    .pg-mosaic {
+        height: auto;
+        max-width: none;
+        margin: 44px -12px 0;
+        padding: 0 12px 18px;
+        transform: none;
+        display: flex;
+        gap: 16px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+    }
+    .pg-card, .pg-card--a, .pg-card--b, .pg-card--c {
+        position: relative;
+        inset: auto;
+        flex: 0 0 78%;
+        max-width: 340px;
+        height: 230px;
+        border-radius: 20px;
+        transform: none;
+        animation: none;
+        scroll-snap-align: center;
+    }
+    .pg-card--c { flex-basis: 230px; }
+    .pg-ring, .pg-badge { display: none; }
+}

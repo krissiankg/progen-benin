@@ -177,20 +177,51 @@ def wrap(title, description, active, body):
 
 # ---------- INDEX ----------
 index_body = r'''
-        <section class="top-space-padding position-relative cover-background background-position-center-bottom magic-cursor round-cursor" style="background-image: url('images/progen/join.jpg')"> 
-            <div class="opacity-light bg-dark-gray"></div>
-            <div class="container position-relative">
-                <div class="row align-items-center position-relative">
-                    <div class="col-11 col-lg-7 col-sm-9 mt-14 mb-14 sm-mt-10 sm-mb-10" data-anime='{ "el": "childs", "translateX": [30, 1], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>  
-                        <div class="vertical-title-center align-items-center position-absolute left-minus-80px xl-left-minus-60px lg-left-minus-20px top-0px d-none d-xl-flex">
-                            <div class="title fs-15 text-base-color fw-700 text-uppercase ls-3px border-start border-color-base-color lh-10 pt-45px pb-45px">ProGen Bénin</div>
-                        </div> 
-                        <div class="alt-font fs-80 lh-85 lg-fs-70 xs-fs-55 xs-lh-60 lg-lh-70 mb-30px text-white ls-minus-2px">Protéger les droits des enfants et des femmes</div> 
-                        <div class="fs-19 lh-30 w-80 lg-w-90 sm-w-100 mb-30px text-white">Pour la prochaine génération du Bénin — éducation, santé et droits humains.</div>
+        <section class="pg-hero top-space-padding magic-cursor round-cursor" id="pg-hero">
+            <div class="container">
+                <div class="row align-items-center pg-hero-inner">
+                    <div class="col-lg-6 col-12" data-anime='{ "el": "childs", "translateY": [24, 0], "opacity": [0,1], "duration": 700, "delay": 0, "staggervalue": 160, "easing": "easeOutQuad" }'>
+                        <div class="pg-eyebrow">ONG · Bénin</div>
+                        <h1 class="pg-title">Protéger les <em>droits</em> des enfants et des femmes</h1>
+                        <p class="pg-lead">Pour la prochaine génération du Bénin — éducation, santé et droits humains.</p>
                         <a href="demo-charity-causes.html" class="btn btn-large btn-round-edge with-rounded btn-gradient-green-goldenrod-yellow btn-box-shadow">Découvrir nos projets<span class="bg-white"><i class="fa-solid fa-arrow-right text-dark-golden-yellow"></i></span></a>
+                        <div class="pg-proof">
+                            <span><i class="bi bi-book"></i>Éducation</span>
+                            <span><i class="bi bi-heart-pulse"></i>Santé</span>
+                            <span><i class="bi bi-people"></i>Droits humains</span>
+                        </div>
                     </div>
-                </div> 
+                    <div class="col-lg-6 col-12">
+                        <div class="pg-mosaic" aria-label="Photos des actions de ProGen Bénin">
+                            <figure class="pg-card pg-card--a" data-depth="14"><img src="images/progen/ee-15-1.jpg" alt="Équipe et bénéficiaires de ProGen Bénin réunis" width="1422" height="800" fetchpriority="high"></figure>
+                            <figure class="pg-card pg-card--b" data-depth="-10"><img src="images/progen/ms-sonri.jpg" alt="Enfants brandissant leurs livres" width="960" height="720"></figure>
+                            <figure class="pg-card pg-card--c" data-depth="20"><img src="images/progen/ee-17.jpg" alt="Enfants avec des jouets éducatifs" width="1000" height="563" style="object-position:50% 35%"></figure>
+                            <span class="pg-ring" aria-hidden="true"></span>
+                            <div class="pg-badge">
+                                <span class="pg-badge-icon"><i class="bi bi-patch-check"></i></span>
+                                <span><strong>ONG enregistrée depuis 2017</strong><small>Littoral · Atlantique · Borgou · Alibori</small></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <div class="pg-hero-wave" aria-hidden="true"><svg viewBox="0 0 1440 54" preserveAspectRatio="none"><path d="M0 54V30C240 6 480 0 720 12s480 30 720 6v36z" fill="#fff"/></svg></div>
+            <script>
+            (function () {
+                var hero = document.getElementById('pg-hero');
+                if (!hero || window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.innerWidth < 992) return;
+                var cards = hero.querySelectorAll('.pg-card');
+                hero.addEventListener('mousemove', function (e) {
+                    var r = hero.getBoundingClientRect();
+                    var x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+                    cards.forEach(function (c) {
+                        var d = parseFloat(c.getAttribute('data-depth')) || 0;
+                        c.style.setProperty('--px', (x * d).toFixed(1) + 'px'); c.style.setProperty('--py', (y * d).toFixed(1) + 'px');
+                    });
+                });
+                hero.addEventListener('mouseleave', function () { cards.forEach(function (c) { c.style.setProperty('--px', '0px'); c.style.setProperty('--py', '0px'); }); });
+            })();
+            </script>
         </section>
 
         <section class="pt-3 lg-pt-50px sm-pt-30px">
