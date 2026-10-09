@@ -13,6 +13,15 @@ HEAD = '''<!doctype html>
         <meta name="author" content="ProGen Bénin / GUELICHWEB">
         <meta name="viewport" content="width=device-width,initial-scale=1.0" />
         <meta name="description" content="{description}">
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="theme-color" content="#052464">
+        <meta property="og:type" content="website">
+        <meta property="og:locale" content="fr_FR">
+        <meta property="og:site_name" content="ProGen Bénin">
+        <meta property="og:title" content="{title}">
+        <meta property="og:description" content="{description}">
+        <meta property="og:image" content="https://progen-benin-demo.netlify.app/images/progen/ee-15-1.jpg">
+        <meta name="twitter:card" content="summary_large_image">
         <link rel="shortcut icon" href="images/favicon.png">
         <link rel="apple-touch-icon" href="images/apple-touch-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
@@ -98,7 +107,7 @@ FOOTER = '''        <!-- start footer -->
             <div class="container position-relative">
                 <div class="row justify-content-center pt-5 pb-5 md-pt-45px md-pb-50px text-center text-sm-start">
                     <div class="col-lg-3 col-md-12 col-sm-6 d-flex flex-column flex-md-row flex-lg-column align-items-md-center align-items-lg-start last-paragraph-no-margin md-mb-35px">
-                        <a href="index.html" class="footer-logo d-inline-block xs-mb-15px"><img src="images/progen/logo.webp" alt="ProGen Bénin" style="max-height:56px;"></a>
+                        <a href="index.html" class="footer-logo pg-footer-logo d-inline-block xs-mb-15px"><img src="images/progen/logo.webp" alt="ProGen Bénin" style="max-height:48px;"></a>
                         <div class="mt-auto ms-md-auto ms-lg-0 ms-0">
                             <span class="fs-14 text-uppercase text-white fw-500 ls-1px">ONG enregistrée</span>
                             <h6 class="alt-font fw-400 text-base-color mb-0">Depuis 2017</h6>
@@ -116,7 +125,7 @@ FOOTER = '''        <!-- start footer -->
                     </div>
                     <div class="col-xxl-2 col-lg-3 col-md-4 col-sm-6 last-paragraph-no-margin">
                         <span class="d-block text-white mb-15px fs-14 text-uppercase fw-500 ls-1px">Navigation</span>
-                        <ul class="footer-navbar flex-column align-items-sm-start">
+                        <ul class="footer-navbar pg-footer-col flex-column align-items-sm-start">
                             <li class="nav-item"><a href="demo-charity-causes.html" class="nav-link p-0 mb-5px">Projets</a></li>
                             <li class="nav-item"><a href="demo-charity-volunteer.html" class="nav-link p-0 mb-5px">Équipe</a></li>
                             <li class="nav-item"><a href="demo-charity-contact.html" class="nav-link p-0">Contact</a></li>
@@ -159,38 +168,83 @@ FOOTER = '''        <!-- start footer -->
 '''
 
 def page_title(h1, h2, bg="images/progen/about-16-1.jpg"):
-    return f'''        <section class="page-title-big-typography cover-background" style="background-image: url({bg})">
-            <div class="opacity-extra-medium bg-gradient-dark-transparent"></div>
+    # Bandeau « mosaïque » : texte à gauche, photo à taille native à droite (pas de fond étiré).
+    return f'''        <section class="pg-hero pg-banner top-space-padding">
             <div class="container">
-                <div class="row align-items-center small-screen">
-                    <div class="col-10 col-sm-12 position-relative page-title-extra-large">
-                        <h1 class="alt-font text-white mb-10px ls-minus-1px" data-fancy-text='{{ "opacity": [0, 1], "translateY": [50, 0], "filter": ["blur(20px)", "blur(0px)"], "string": ["{h1}"], "duration": 500, "delay": 0, "speed": 50, "easing": "easeOutQuad" }}'></h1>
-                        <h2 class="mb-0 xs-w-85 text-white" data-anime='{{ "translateY": [15, 0], "opacity": [0,1], "duration": 600, "delay": 300, "staggervalue": 200, "easing": "easeOutQuad" }}'>{h2}</h2>
+                <div class="row align-items-center pg-banner-inner">
+                    <div class="col-lg-8 col-12">
+                        <div class="pg-eyebrow">ProGen Bénin</div>
+                        <h1 class="pg-title pg-title--sm" data-fancy-text='{{ "opacity": [0, 1], "translateY": [30, 0], "filter": ["blur(16px)", "blur(0px)"], "string": ["{h1}"], "duration": 500, "delay": 0, "speed": 50, "easing": "easeOutQuad" }}'>{h1}</h1>
+                        <p class="pg-lead mb-0" data-anime='{{ "translateY": [15, 0], "opacity": [0,1], "duration": 600, "delay": 300, "staggervalue": 200, "easing": "easeOutQuad" }}'>{h2}</p>
+                    </div>
+                    <div class="col-lg-4 d-none d-lg-block">
+                        <figure class="pg-card pg-banner-photo"><img src="{bg}" alt="" loading="eager"></figure>
                     </div>
                 </div>
             </div>
+            <div class="pg-hero-wave" aria-hidden="true"><svg viewBox="0 0 1440 54" preserveAspectRatio="none"><path d="M0 54V30C240 6 480 0 720 12s480 30 720 6v36z" fill="#fff"/></svg></div>
         </section>
 '''
 
+def lazy_images(html):
+    """Ajoute loading="lazy" aux <img> qui n'ont pas déjà loading/fetchpriority, hors cartes du hero."""
+    out = []
+    for line in html.split("\n"):
+        if "<img " in line and "loading=" not in line and "fetchpriority" not in line and "pg-card" not in line:
+            line = line.replace("<img ", '<img loading="lazy" ')
+        out.append(line)
+    return "\n".join(out)
+
 def wrap(title, description, active, body):
-    return HEAD.format(title=title, description=description) + header(active) + body + FOOTER
+    return HEAD.format(title=title, description=description) + header(active) + lazy_images(body) + lazy_images(FOOTER)
 
 # ---------- INDEX ----------
 index_body = r'''
-        <section class="top-space-padding position-relative cover-background background-position-center-bottom magic-cursor round-cursor" style="background-image: url('images/progen/join.jpg')"> 
-            <div class="opacity-light bg-dark-gray"></div>
-            <div class="container position-relative">
-                <div class="row align-items-center position-relative">
-                    <div class="col-11 col-lg-7 col-sm-9 mt-14 mb-14 sm-mt-10 sm-mb-10" data-anime='{ "el": "childs", "translateX": [30, 1], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>  
-                        <div class="vertical-title-center align-items-center position-absolute left-minus-80px xl-left-minus-60px lg-left-minus-20px top-0px d-none d-xl-flex">
-                            <div class="title fs-15 text-base-color fw-700 text-uppercase ls-3px border-start border-color-base-color lh-10 pt-45px pb-45px">ProGen Bénin</div>
-                        </div> 
-                        <div class="alt-font fs-80 lh-85 lg-fs-70 xs-fs-55 xs-lh-60 lg-lh-70 mb-30px text-white ls-minus-2px">Protéger les droits des enfants et des femmes</div> 
-                        <div class="fs-19 lh-30 w-80 lg-w-90 sm-w-100 mb-30px text-white">Pour la prochaine génération du Bénin — éducation, santé et droits humains.</div>
+        <section class="pg-hero top-space-padding magic-cursor round-cursor" id="pg-hero">
+            <div class="container">
+                <div class="row align-items-center pg-hero-inner">
+                    <div class="col-lg-6 col-12" data-anime='{ "el": "childs", "translateY": [24, 0], "opacity": [0,1], "duration": 700, "delay": 0, "staggervalue": 160, "easing": "easeOutQuad" }'>
+                        <div class="pg-eyebrow">ONG · Bénin</div>
+                        <h1 class="pg-title">Protéger les <em>droits</em> des enfants et des femmes</h1>
+                        <p class="pg-lead">Pour la prochaine génération du Bénin — éducation, santé et droits humains.</p>
                         <a href="demo-charity-causes.html" class="btn btn-large btn-round-edge with-rounded btn-gradient-green-goldenrod-yellow btn-box-shadow">Découvrir nos projets<span class="bg-white"><i class="fa-solid fa-arrow-right text-dark-golden-yellow"></i></span></a>
+                        <div class="pg-proof">
+                            <span><i class="bi bi-book"></i>Éducation</span>
+                            <span><i class="bi bi-heart-pulse"></i>Santé</span>
+                            <span><i class="bi bi-people"></i>Droits humains</span>
+                        </div>
                     </div>
-                </div> 
+                    <div class="col-lg-6 col-12">
+                        <div class="pg-mosaic" aria-label="Photos des actions de ProGen Bénin">
+                            <figure class="pg-card pg-card--a" data-depth="14"><img src="images/progen/ee-15-1.jpg" alt="Équipe et bénéficiaires de ProGen Bénin réunis" width="1422" height="800" fetchpriority="high"></figure>
+                            <figure class="pg-card pg-card--b" data-depth="-10"><img src="images/progen/ms-sonri.jpg" alt="Enfants brandissant leurs livres" width="960" height="720"></figure>
+                            <figure class="pg-card pg-card--c" data-depth="20"><img src="images/progen/ee-17.jpg" alt="Enfants avec des jouets éducatifs" width="1000" height="563" style="object-position:50% 35%"></figure>
+                            <span class="pg-ring" aria-hidden="true"></span>
+                            <div class="pg-badge">
+                                <span class="pg-badge-icon"><i class="bi bi-patch-check"></i></span>
+                                <span><strong>ONG enregistrée depuis 2017</strong><small>Littoral · Atlantique · Borgou · Alibori</small></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <div class="pg-hero-wave" aria-hidden="true"><svg viewBox="0 0 1440 54" preserveAspectRatio="none"><path d="M0 54V30C240 6 480 0 720 12s480 30 720 6v36z" fill="#fff"/></svg></div>
+            <script>
+            (function () {
+                var hero = document.getElementById('pg-hero');
+                if (!hero || window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.innerWidth < 992) return;
+                var cards = hero.querySelectorAll('.pg-card');
+                hero.addEventListener('mousemove', function (e) {
+                    var r = hero.getBoundingClientRect();
+                    var x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+                    cards.forEach(function (c) {
+                        var d = parseFloat(c.getAttribute('data-depth')) || 0;
+                        c.style.setProperty('--px', (x * d).toFixed(1) + 'px'); c.style.setProperty('--py', (y * d).toFixed(1) + 'px');
+                    });
+                });
+                hero.addEventListener('mouseleave', function () { cards.forEach(function (c) { c.style.setProperty('--px', '0px'); c.style.setProperty('--py', '0px'); }); });
+            })();
+            </script>
         </section>
 
         <section class="pt-3 lg-pt-50px sm-pt-30px">
@@ -205,7 +259,7 @@ index_body = r'''
                     <div class="col custom-icon-with-text-style-02 border-end border-color-extra-medium-gray md-mb-40px">
                         <div class="feature-box ps-40px pe-40px xl-ps-20px xl-pe-20px">
                             <div class="feature-box-icon position-relative">
-                                <img class="custom-image-icon mt-30px mb-20px border-radius-6px" src="images/progen/gas-9-1.jpg" alt="Éducation" />
+                                <img class="pg-feature-img mt-30px mb-20px" src="images/progen/gas-9-1.jpg" alt="Éducation" />
                                 <div class="w-80px h-80px bg-white box-shadow-double-large rounded-circle d-flex align-items-center justify-content-center position-absolute top-0px right-0px">
                                     <i class="bi bi-book icon-medium text-gradient-corduroy-green-dark-goldenrod"></i>
                                 </div>
@@ -219,7 +273,7 @@ index_body = r'''
                     <div class="col custom-icon-with-text-style-02 border-end border-color-extra-medium-gray md-border-end-0 md-mb-40px">
                         <div class="feature-box ps-40px pe-40px xl-ps-20px xl-pe-20px">
                             <div class="feature-box-icon position-relative">
-                                <img class="custom-image-icon mt-30px mb-20px border-radius-6px" src="images/progen/ozg-7-2.jpg" alt="Santé" />
+                                <img class="pg-feature-img mt-30px mb-20px" src="images/progen/ozg-7-2.jpg" alt="Santé" />
                                 <div class="w-80px h-80px bg-white box-shadow-double-large rounded-circle d-flex align-items-center justify-content-center position-absolute top-0px right-0px">
                                     <i class="bi bi-heart-pulse icon-medium text-gradient-corduroy-green-dark-goldenrod"></i>
                                 </div>
@@ -233,7 +287,7 @@ index_body = r'''
                     <div class="col custom-icon-with-text-style-02 border-end border-color-extra-medium-gray xs-mb-40px">
                         <div class="feature-box ps-40px pe-40px xl-ps-20px xl-pe-20px">
                             <div class="feature-box-icon position-relative">
-                                <img class="custom-image-icon mt-30px mb-20px border-radius-6px" src="images/progen/ef-13.jpg" alt="Formation" />
+                                <img class="pg-feature-img mt-30px mb-20px" src="images/progen/ef-13.jpg" alt="Formation" />
                                 <div class="w-80px h-80px bg-white box-shadow-double-large rounded-circle d-flex align-items-center justify-content-center position-absolute top-0px right-0px">
                                     <i class="bi bi-mortarboard icon-medium text-gradient-corduroy-green-dark-goldenrod"></i>
                                 </div>
@@ -247,7 +301,7 @@ index_body = r'''
                     <div class="col custom-icon-with-text-style-02">
                         <div class="feature-box ps-40px pe-40px xl-ps-20px xl-pe-20px">
                             <div class="feature-box-icon position-relative">
-                                <img class="custom-image-icon mt-30px mb-20px border-radius-6px" src="images/progen/about-2.jpg" alt="Femmes" />
+                                <img class="pg-feature-img mt-30px mb-20px" src="images/progen/about-2.jpg" alt="Femmes" />
                                 <div class="w-80px h-80px bg-white box-shadow-double-large rounded-circle d-flex align-items-center justify-content-center position-absolute top-0px right-0px">
                                     <i class="bi bi-people icon-medium text-gradient-corduroy-green-dark-goldenrod"></i>
                                 </div>
@@ -276,7 +330,7 @@ index_body = r'''
                         <p class="w-80 mx-auto sm-w-100">Cinq programmes pour l'éducation, la santé et l'épanouissement des enfants et des filles.</p>
                     </div>
                 </div> 
-                <div class="row row-cols-1 row-cols-lg-3 row-cols-md-2 justify-content-center mb-4" data-anime='{ "el": "childs", "translateY": [30, 0], "opacity": [0,1], "duration": 600, "delay": 100, "staggervalue": 200, "easing": "easeOutQuad" }'>
+                <div class="row row-cols-1 row-cols-lg-3 row-cols-md-2 justify-content-center g-4 mb-4 pg-projects" data-anime='{ "el": "childs", "translateY": [30, 0], "opacity": [0,1], "duration": 600, "delay": 100, "staggervalue": 200, "easing": "easeOutQuad" }'>
 '''
 
 projects_home = [
@@ -289,7 +343,7 @@ projects_home = [
 
 for slug, img, tag, title, desc in projects_home:
     index_body += f'''
-                    <div class="col md-mb-30px" id="projet-{slug}">
+                    <div class="col" id="projet-{slug}">
                         <div class="box-shadow-quadruple-large box-shadow-quadruple-large-hover services-box-style-03 last-paragraph-no-margin border-radius-4px overflow-hidden">
                             <div class="position-relative">
                                 <a href="demo-charity-causes.html#{slug}"><img src="{img}" alt="{title}"></a>
@@ -342,7 +396,7 @@ index_body += r'''
                             </div>
                         </div>
                         <span class="d-inline-block fw-500 text-white fs-18">Dévouement et Égalité</span>
-                        <p class="w-85 d-inline-block text-white opacity-4">Servir sans distinction d'âge, de sexe, de religion ou d'origine.</p>
+                        <p class="w-85 d-inline-block text-white opacity-8">Servir sans distinction d'âge, de sexe, de religion ou d'origine.</p>
                     </div>
                     <div class="col text-center last-paragraph-no-margin hover-box process-step-style-09 md-mb-50px">
                         <div class="process-step-icon-box position-relative mb-25px"> 
@@ -352,7 +406,7 @@ index_body += r'''
                             </div>
                         </div>
                         <span class="d-inline-block fw-500 text-white fs-18">Lutte pour l'Excellence</span>
-                        <p class="w-85 d-inline-block text-white opacity-4">Projets bien planifiés, suivis, avec des partenaires engagés.</p>
+                        <p class="w-85 d-inline-block text-white opacity-8">Projets bien planifiés, suivis, avec des partenaires engagés.</p>
                     </div>
                     <div class="col text-center last-paragraph-no-margin hover-box process-step-style-09">
                         <div class="process-step-icon-box position-relative mb-25px"> 
@@ -362,7 +416,7 @@ index_body += r'''
                             </div> 
                         </div>
                         <span class="d-inline-block fw-500 text-white fs-18">Intégrité et Transparence</span>
-                        <p class="w-85 d-inline-block text-white opacity-4">Respect, transparence des fonds, rejet des pratiques illicites.</p>
+                        <p class="w-85 d-inline-block text-white opacity-8">Respect, transparence des fonds, rejet des pratiques illicites.</p>
                     </div>
                 </div>
             </div>
@@ -372,11 +426,11 @@ index_body += r'''
             <div class="container overlap-gap-section">
                 <div class="row g-0 border-radius-4px mb-7 overflow-hidden sm-mb-60px">
                     <div class="col-lg-6 col-md-7 p-8 lg-p-4 sm-p-25px background-position-left-top position-relative text-center text-md-start" style="background-image: url('images/demo-charity-home-bg-06.jpg')">
-                        <h3 class="alt-font text-dark-gray w-95 xl-w-100 mb-20px">Rejoins-nous</h3>
+                        <h3 class="alt-font text-dark-gray w-95 xl-w-100 mb-20px">Rejoignez-nous</h3>
                         <p class="text-dark-gray opacity-8 w-95 lg-w-100 mb-30px">Contactez ProGen Bénin pour soutenir nos projets, vous engager ou en savoir plus sur nos actions.</p>
                         <a href="demo-charity-contact.html" class="btn btn-large btn-round-edge with-rounded btn-gradient-green-goldenrod-yellow">Nous contacter<span class="bg-white"><i class="fa-solid fa-arrow-right text-dark-golden-yellow"></i></span></a>
                     </div>
-                    <div class="col-lg-6 col-md-5 cover-background position-relative sm-h-350px" style="background-image: url('images/progen/join.jpg')"> 
+                    <div class="col-lg-6 col-md-5 cover-background position-relative sm-h-350px" style="background-image: url('images/progen/ef-12-1.jpg'); background-position: 50% 30%"> 
                     </div>
                 </div>
                 <div class="row justify-content-center mb-3 sm-mb-30px">
@@ -425,7 +479,7 @@ about_body = page_title("À propos", "Prochaine Génération Bénin", "images/pr
                         </div> 
                     </div> 
                     <div class="col-xl-5 col-lg-6 ps-6 xl-ps-3 md-ps-15px" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 200, "easing": "easeOutQuad" }'>
-                        <h3 class="alt-font text-dark-gray">Qui sommes-nous ?</h3> 
+                        <h3 class="alt-font text-dark-gray">Qui sommes-nous&nbsp;?</h3> 
                         <p class="mb-20px">Prochaine Génération Bénin (ProGen Bénin) est une ONG à but non lucratif enregistrée sous le n°2017|1909|DEP-LIT/SG/SAG-Assoc du 12 avril 2017, publiée au Journal officiel du 15 juin 2017.</p>
                         <p class="mb-20px">Elle intervient dans les domaines de l'<strong>éducation</strong>, de la <strong>santé</strong> et des <strong>droits humains</strong>, auprès des enfants, des femmes et des associations de parents d'élèves.</p>
                         <div class="pt-15px pb-15px ps-30px pe-30px xs-p-15px bg-white box-shadow-quadruple-large border-radius-6px border border-color-extra-medium-gray mb-20px icon-with-text-style-08">
@@ -558,7 +612,7 @@ causes_body += '''
 '''
 
 # ---------- TEAM ----------
-team_body = page_title("Notre équipe", "Les personnes derrière ProGen Bénin", "images/progen/team-ghislaine.jpg") + r'''
+team_body = page_title("Notre équipe", "Les personnes derrière ProGen Bénin", "images/progen/ee-15-1.jpg") + r'''
         <section class="background-position-left-top position-relative" style="background-image: url('images/demo-charity-home-bg-01.jpg')">
             <div class="position-absolute left-0px top-minus-70px xl-top-minus-50px lg-top-minus-30px sm-top-minus-20px xs-top-minus-15px background-position-left-top w-100 h-100px lg-h-50px background-size-100 background-no-repeat" style="background-image: url('images/demo-charity-home-bg-02.jpg')"></div>
             <div class="container">
@@ -662,7 +716,7 @@ stories_body = page_title("Actualités", "Les actions de ProGen Bénin", "images
 gallery_images = [
     ("images/progen/ozg-7-2.jpg", "Objectif Zéro Grossesse"),
     ("images/progen/ozg-6-1.jpg", "Sensibilisation scolaire"),
-    ("images/progen/ozg-8.jpg", "Campagne OZG"),
+    ("images/progen/ozg-8.jpg", "Campagne de sensibilisation"),
     ("images/progen/ef-13.jpg", "Excellence Féminine"),
     ("images/progen/ef-14.jpg", "Bourses filles"),
     ("images/progen/ef-12-1.jpg", "Élèves boursières"),
@@ -673,122 +727,156 @@ gallery_images = [
     ("images/progen/ee-15-1.jpg", "Enfance Épanouie"),
     ("images/progen/ee-16.jpg", "Aire de jeux"),
     ("images/progen/ee-17.jpg", "Jouets éducatifs"),
-    ("images/progen/about-16-1.jpg", "Actions ProGen"),
     ("images/progen/about-2.jpg", "Terrain"),
-    ("images/progen/join.jpg", "Engagement"),
     ("images/progen/blog-1.jpg", "Hygiène menstruelle"),
     ("images/progen/blog-2.jpg", "Actualité Sonri"),
 ]
 
 gallery_body = page_title("Galerie", "Moments de nos projets sur le terrain", "images/progen/gas-9-2.jpg")
 gallery_body += '''
-        <section class="background-position-left-top background-no-repeat-y background-size-auto-100 pt-5 md-pt-0" style="background-image: url('images/demo-charity-causes-bg.jpg')">
-            <div class="container">  
-                <div class="row mb-60px md-mb-40px">
-                    <div class="col">
-                        <ul class="image-gallery-style-02 gallery-wrapper grid-loading grid grid-3col xxl-grid-3col xl-grid-3col lg-grid-3col md-grid-2col sm-grid-2col xs-grid-1col gutter-extra-large" data-anime='{ "el": "childs", "translateY": [30, 0], "opacity": [0,1], "duration": 600, "delay":0, "staggervalue": 200, "easing": "easeOutQuad" }'>
-                            <li class="grid-sizer"></li>
+        <section class="pg-gallery-section">
+            <div class="container">
+                <ul class="pg-gallery">
 '''
 for src, title in gallery_images:
     gallery_body += f'''
-                            <li class="grid-item transition-inner-all z-index-1">
-                                <div class="atropos" data-atropos data-atropos-perspective="1150">
-                                    <div class="atropos-scale">
-                                        <div class="atropos-rotate">
-                                            <div class="atropos-inner" data-atropos-offset="3"> 
-                                                <div class="gallery-box">
-                                                    <a href="{src}" data-group="lightbox-group-gallery-item-2" title="{title}">
-                                                        <div class="position-relative gallery-image bg-dark-gray border-radius-6px overflow-hidden">
-                                                            <img src="{src}" alt="{title}" />
-                                                            <div class="d-flex align-items-center justify-content-center position-absolute top-0px left-0px w-100 h-100 gallery-hover move-bottom-top">
-                                                                <i class="bi bi-camera icon-medium text-white"></i>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
+                    <li class="pg-gallery-item">
+                        <div class="gallery-box">
+                            <a href="{src}" data-group="lightbox-group-gallery-item-2" title="{title}" class="pg-gallery-link">
+                                <img src="{src}" alt="{title}" loading="lazy" />
+                                <span class="pg-gallery-caption"><i class="bi bi-zoom-in"></i>{title}</span>
+                            </a>
+                        </div>
+                    </li>
 '''
 gallery_body += '''
+                </ul>
+            </div>
+        </section>
+'''
+
+# ---------- CONTACT ----------
+contact_body = page_title("Contact", "Écrivons-nous ou appelons-nous", "images/progen/gas-9-1.jpg") + r'''
+        <section class="pg-contact">
+            <div class="container">
+                <div class="row justify-content-between align-items-start g-5">
+                    <div class="col-lg-5">
+                        <span class="pg-kicker">Restons en contact</span>
+                        <h3 class="alt-font text-dark-gray mb-20px">Une question, un don, un partenariat&nbsp;?</h3>
+                        <p class="mb-35px">Écrivez-nous via le formulaire ou utilisez directement les coordonnées ci-dessous. Nous vous répondons dès que possible.</p>
+                        <ul class="pg-contact-list">
+                            <li>
+                                <i class="bi bi-telephone-outbound"></i>
+                                <div><span>Téléphones</span>
+                                    <a href="tel:+22969740000">+229 69 74 00 00</a>
+                                    <a href="tel:+22994440303">+229 94 44 03 03</a>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="bi bi-envelope"></i>
+                                <div><span>E-mail</span>
+                                    <a href="mailto:contact@progenbenin.org">contact@progenbenin.org</a>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="bi bi-geo-alt"></i>
+                                <div><span>Zones d'intervention</span>
+                                    <strong>Littoral, Atlantique, Borgou, Alibori</strong>
+                                </div>
+                            </li>
                         </ul>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="pg-form-card">
+                            <h3 class="alt-font text-white mb-10px">Envoyez un message</h3>
+                            <p class="text-white opacity-8 mb-30px">Les champs marqués d'un astérisque sont obligatoires.</p>
+                            <form name="contact" method="POST" action="merci.html" data-netlify="true" netlify-honeypot="bot-field">
+                                <input type="hidden" name="form-name" value="contact">
+                                <p class="pg-hp" aria-hidden="true"><label>Ne pas remplir : <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+                                <div class="pg-field">
+                                    <label for="pg-name">Votre nom*</label>
+                                    <input id="pg-name" type="text" name="name" autocomplete="name" required>
+                                </div>
+                                <div class="pg-field">
+                                    <label for="pg-email">Votre e-mail*</label>
+                                    <input id="pg-email" type="email" name="email" autocomplete="email" required>
+                                </div>
+                                <div class="pg-field">
+                                    <label for="pg-phone">Votre téléphone</label>
+                                    <input id="pg-phone" type="tel" name="phone" autocomplete="tel">
+                                </div>
+                                <div class="pg-field">
+                                    <label for="pg-msg">Votre message*</label>
+                                    <textarea id="pg-msg" name="message" rows="4" required></textarea>
+                                </div>
+                                <button class="btn btn-base-color btn-medium btn-box-shadow btn-round-edge w-100 mt-10px" type="submit">Envoyer le message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pg-support" id="don">
+            <div class="container">
+                <div class="row justify-content-center mb-5 sm-mb-30px">
+                    <div class="col-xxl-6 col-xl-7 col-lg-8 text-center">
+                        <span class="pg-kicker">Agir avec nous</span>
+                        <h3 class="alt-font text-dark-gray mb-10px">Comment nous soutenir</h3>
+                        <p class="mb-0">Chaque soutien aide ProGen Bénin à protéger les droits des enfants et des femmes. Contactez-nous pour connaître les modalités.</p>
+                    </div>
+                </div>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <div class="col"><div class="pg-support-card">
+                        <i class="bi bi-heart"></i>
+                        <h4>Faire un don</h4>
+                        <p>Écrivez-nous ou appelez-nous : nous vous indiquerons comment faire un don en toute transparence.</p>
+                        <a href="mailto:contact@progenbenin.org?subject=Faire%20un%20don" class="pg-link">Nous écrire <i class="fa-solid fa-arrow-right"></i></a>
+                    </div></div>
+                    <div class="col"><div class="pg-support-card">
+                        <i class="bi bi-emoji-smile"></i>
+                        <h4>Parrainer un enfant</h4>
+                        <p>Le programme Give a Smile organise le parrainage scolaire d'enfants en situations difficiles.</p>
+                        <a href="mailto:contact@progenbenin.org?subject=Parrainage%20scolaire" class="pg-link">En savoir plus <i class="fa-solid fa-arrow-right"></i></a>
+                    </div></div>
+                    <div class="col"><div class="pg-support-card">
+                        <i class="bi bi-people"></i>
+                        <h4>Devenir partenaire</h4>
+                        <p>Associations, écoles, entreprises : construisons ensemble des actions pour l'éducation et la santé.</p>
+                        <a href="mailto:contact@progenbenin.org?subject=Partenariat" class="pg-link">Proposer un partenariat <i class="fa-solid fa-arrow-right"></i></a>
+                    </div></div>
+                </div>
+            </div>
+        </section>
+'''
+
+# ---------- MERCI / 404 ----------
+thanks_body = page_title("Message envoyé", "Merci de votre confiance", "images/progen/ee-17.jpg") + r'''
+        <section>
+            <div class="container">
+                <div class="row justify-content-center text-center">
+                    <div class="col-lg-6">
+                        <i class="bi bi-check-circle pg-big-icon"></i>
+                        <h3 class="alt-font text-dark-gray mb-15px">Votre message a bien été envoyé</h3>
+                        <p class="mb-35px">Merci de nous avoir contactés. L'équipe de ProGen Bénin vous répondra dès que possible.</p>
+                        <a href="index.html" class="btn btn-large btn-round-edge with-rounded btn-gradient-green-goldenrod-yellow">Retour à l'accueil<span class="bg-white"><i class="fa-solid fa-arrow-right text-dark-golden-yellow"></i></span></a>
                     </div>
                 </div>
             </div>
         </section>
 '''
 
-# ---------- CONTACT ----------
-contact_body = page_title("Contact", "Écrivons-nous ou appelons-nous", "images/progen/join.jpg") + r'''
-        <section class="position-relative z-index-1 pt-50px lg-pt-30px md-pt-0 pb-0" id="don">
+notfound_body = page_title("Page introuvable", "Cette page n'existe pas ou a été déplacée", "images/progen/ms-sonri.jpg") + r'''
+        <section>
             <div class="container">
-                <div class="row justify-content-center"> 
-                    <div class="col-lg-5 pb-5 sm-pb-50px" data-anime='{"el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 200, "easing": "easeOutQuad" }'> 
-                        <span class="fs-15 fw-600 ls-05px text-uppercase text-dark-golden-yellow d-block mb-10px">Restons en contact</span>
-                        <h3 class="alt-font text-dark-gray">Une question, un don, un partenariat ?</h3>
-                        <p class="mb-30px">Cette page est une démonstration. Pour joindre ProGen Bénin, utilisez les coordonnées ci-dessous.</p>
-                        <div class="mt-4 w-90 lg-w-100" data-anime='{"el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 200, "easing": "easeOutQuad" }'>
-                            <div class="col icon-with-text-style-08 mb-25px">
-                                <div class="feature-box feature-box-left-icon-middle border-bottom pb-25px border-color-extra-medium-gray">
-                                    <div class="feature-box-icon me-20px">
-                                        <i class="bi bi-telephone-outbound icon-medium text-dark-gray"></i> 
-                                    </div>
-                                    <div class="feature-box-content">
-                                        <span>Téléphones</span>
-                                        <span class="d-block fw-500 fs-18"><a href="tel:+22969740000" class="text-dark-gray text-dark-gray-hover">+229 69 74 00 00</a></span>
-                                        <span class="d-block fw-500 fs-18"><a href="tel:+22994440303" class="text-dark-gray text-dark-gray-hover">+229 94 44 03 03</a></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col icon-with-text-style-08">
-                                <div class="feature-box feature-box-left-icon-middle">
-                                    <div class="feature-box-icon me-20px">
-                                        <i class="bi bi-envelope icon-medium text-dark-gray"></i> 
-                                    </div>
-                                    <div class="feature-box-content">
-                                        <span>E-mail</span>
-                                        <span class="d-block fw-500 fs-19"><a href="mailto:contact@progenbenin.org" class="text-dark-gray text-dark-gray-hover">contact@progenbenin.org</a></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="row justify-content-center text-center">
+                    <div class="col-lg-6">
+                        <div class="pg-404">404</div>
+                        <h3 class="alt-font text-dark-gray mb-15px">Oups, nous ne trouvons pas cette page</h3>
+                        <p class="mb-35px">Vous pouvez retourner à l'accueil ou découvrir nos projets.</p>
+                        <a href="index.html" class="btn btn-large btn-round-edge with-rounded btn-gradient-green-goldenrod-yellow me-10px mb-10px">Accueil<span class="bg-white"><i class="fa-solid fa-arrow-right text-dark-golden-yellow"></i></span></a>
+                        <a href="demo-charity-causes.html" class="btn btn-large btn-round-edge btn-dark-gray mb-10px">Nos projets</a>
                     </div>
-                    <div class="col-lg-6 offset-lg-1 align-self-end contact-form-style-03" data-anime='{ "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 200, "easing": "easeOutQuad" }'> 
-                        <div class="bg-dark-gray box-shadow-double-large p-14 lg-p-10 border-radius-10px position-relative overflow-hidden">
-                            <h3 class="alt-font text-white">Envoyez un message</h3>
-                            <p class="text-white opacity-6 mb-30px">Formulaire démo — sans envoi backend.</p>
-                            <form action="email-templates/contact-form.php" method="post">
-                                <div class="position-relative form-group mb-20px">
-                                    <span class="form-icon text-white opacity-7"><i class="bi bi-emoji-smile"></i></span>
-                                    <input class="ps-0 border-radius-0px bg-transparent placeholder-light border-color-transparent-white-light fs-17 form-control required" type="text" name="name" placeholder="Votre nom*" />
-                                </div>
-                                <div class="position-relative form-group mb-20px">
-                                    <span class="form-icon text-white opacity-7"><i class="bi bi-envelope"></i></span>
-                                    <input class="ps-0 border-radius-0px bg-transparent placeholder-light border-color-transparent-white-light fs-17 form-control required" type="email" name="email" placeholder="Votre e-mail*" />
-                                </div>
-                                <div class="position-relative form-group mb-20px">
-                                    <span class="form-icon text-white opacity-7"><i class="bi bi-telephone"></i></span>
-                                    <input class="ps-0 border-radius-0px bg-transparent placeholder-light border-color-transparent-white-light fs-17 form-control" type="tel" name="phone" placeholder="Votre téléphone" />
-                                </div>
-                                <div class="position-relative form-group form-textarea mt-15px mb-0"> 
-                                    <textarea class="ps-0 border-radius-0px bg-transparent placeholder-light border-color-transparent-white-light fs-17 form-control" name="comment" placeholder="Votre message" rows="4"></textarea>
-                                    <span class="form-icon text-white opacity-7"><i class="bi bi-chat-square-dots"></i></span>
-                                    <input type="hidden" name="redirect" value="">
-                                    <button class="btn btn-base-color btn-medium btn-box-shadow btn-round-edge w-100 mt-30px submit" type="submit">Envoyer</button>
-                                    <div class="form-results mt-20px d-none"></div>
-                                </div>
-                            </form> 
-                        </div>
-                    </div>
-                </div> 
-            </div>
-        </section>
-        <section class="pt-0 pb-0">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-12"><div class="separator-line-1px bg-extra-medium-gray mt-0 mb-0"></div></div>
                 </div>
             </div>
         </section>
@@ -848,6 +936,14 @@ pages = {
         "Contact — ProGen Bénin",
         "Contacter ProGen Bénin : contact@progenbenin.org, +229 69 74 00 00, +229 94 44 03 03.",
         "contact", contact_body),
+    "merci.html": wrap(
+        "Message envoyé — ProGen Bénin",
+        "Votre message a bien été envoyé à ProGen Bénin.",
+        "contact", thanks_body),
+    "404.html": wrap(
+        "Page introuvable — ProGen Bénin",
+        "Cette page n'existe pas.",
+        "", notfound_body),
     "demo-charity-blog-single-simple.html": wrap(
         "Sensibilisation hygiène menstruelle — ProGen Bénin",
         "Sensibilisation à l'hygiène menstruelle — 26/01/2020 — Sonri, commune de Nikki.",

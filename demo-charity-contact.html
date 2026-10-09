@@ -7,6 +7,15 @@
         <meta name="author" content="ProGen Bénin / GUELICHWEB">
         <meta name="viewport" content="width=device-width,initial-scale=1.0" />
         <meta name="description" content="Contacter ProGen Bénin : contact@progenbenin.org, +229 69 74 00 00, +229 94 44 03 03.">
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="theme-color" content="#052464">
+        <meta property="og:type" content="website">
+        <meta property="og:locale" content="fr_FR">
+        <meta property="og:site_name" content="ProGen Bénin">
+        <meta property="og:title" content="Contact — ProGen Bénin">
+        <meta property="og:description" content="Contacter ProGen Bénin : contact@progenbenin.org, +229 69 74 00 00, +229 94 44 03 03.">
+        <meta property="og:image" content="https://progen-benin-demo.netlify.app/images/progen/ee-15-1.jpg">
+        <meta name="twitter:card" content="summary_large_image">
         <link rel="shortcut icon" href="images/favicon.png">
         <link rel="apple-touch-icon" href="images/apple-touch-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
@@ -70,85 +79,110 @@
             </nav>
         </header>
         <!-- end header -->
-        <section class="page-title-big-typography cover-background" style="background-image: url(images/progen/join.jpg)">
-            <div class="opacity-extra-medium bg-gradient-dark-transparent"></div>
+        <section class="pg-hero pg-banner top-space-padding">
             <div class="container">
-                <div class="row align-items-center small-screen">
-                    <div class="col-10 col-sm-12 position-relative page-title-extra-large">
-                        <h1 class="alt-font text-white mb-10px ls-minus-1px" data-fancy-text='{ "opacity": [0, 1], "translateY": [50, 0], "filter": ["blur(20px)", "blur(0px)"], "string": ["Contact"], "duration": 500, "delay": 0, "speed": 50, "easing": "easeOutQuad" }'></h1>
-                        <h2 class="mb-0 xs-w-85 text-white" data-anime='{ "translateY": [15, 0], "opacity": [0,1], "duration": 600, "delay": 300, "staggervalue": 200, "easing": "easeOutQuad" }'>Écrivons-nous ou appelons-nous</h2>
+                <div class="row align-items-center pg-banner-inner">
+                    <div class="col-lg-8 col-12">
+                        <div class="pg-eyebrow">ProGen Bénin</div>
+                        <h1 class="pg-title pg-title--sm" data-fancy-text='{ "opacity": [0, 1], "translateY": [30, 0], "filter": ["blur(16px)", "blur(0px)"], "string": ["Contact"], "duration": 500, "delay": 0, "speed": 50, "easing": "easeOutQuad" }'>Contact</h1>
+                        <p class="pg-lead mb-0" data-anime='{ "translateY": [15, 0], "opacity": [0,1], "duration": 600, "delay": 300, "staggervalue": 200, "easing": "easeOutQuad" }'>Écrivons-nous ou appelons-nous</p>
+                    </div>
+                    <div class="col-lg-4 d-none d-lg-block">
+                        <figure class="pg-card pg-banner-photo"><img src="images/progen/gas-9-1.jpg" alt="" loading="eager"></figure>
+                    </div>
+                </div>
+            </div>
+            <div class="pg-hero-wave" aria-hidden="true"><svg viewBox="0 0 1440 54" preserveAspectRatio="none"><path d="M0 54V30C240 6 480 0 720 12s480 30 720 6v36z" fill="#fff"/></svg></div>
+        </section>
+
+        <section class="pg-contact">
+            <div class="container">
+                <div class="row justify-content-between align-items-start g-5">
+                    <div class="col-lg-5">
+                        <span class="pg-kicker">Restons en contact</span>
+                        <h3 class="alt-font text-dark-gray mb-20px">Une question, un don, un partenariat&nbsp;?</h3>
+                        <p class="mb-35px">Écrivez-nous via le formulaire ou utilisez directement les coordonnées ci-dessous. Nous vous répondons dès que possible.</p>
+                        <ul class="pg-contact-list">
+                            <li>
+                                <i class="bi bi-telephone-outbound"></i>
+                                <div><span>Téléphones</span>
+                                    <a href="tel:+22969740000">+229 69 74 00 00</a>
+                                    <a href="tel:+22994440303">+229 94 44 03 03</a>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="bi bi-envelope"></i>
+                                <div><span>E-mail</span>
+                                    <a href="mailto:contact@progenbenin.org">contact@progenbenin.org</a>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="bi bi-geo-alt"></i>
+                                <div><span>Zones d'intervention</span>
+                                    <strong>Littoral, Atlantique, Borgou, Alibori</strong>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="pg-form-card">
+                            <h3 class="alt-font text-white mb-10px">Envoyez un message</h3>
+                            <p class="text-white opacity-8 mb-30px">Les champs marqués d'un astérisque sont obligatoires.</p>
+                            <form name="contact" method="POST" action="merci.html" data-netlify="true" netlify-honeypot="bot-field">
+                                <input type="hidden" name="form-name" value="contact">
+                                <p class="pg-hp" aria-hidden="true"><label>Ne pas remplir : <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+                                <div class="pg-field">
+                                    <label for="pg-name">Votre nom*</label>
+                                    <input id="pg-name" type="text" name="name" autocomplete="name" required>
+                                </div>
+                                <div class="pg-field">
+                                    <label for="pg-email">Votre e-mail*</label>
+                                    <input id="pg-email" type="email" name="email" autocomplete="email" required>
+                                </div>
+                                <div class="pg-field">
+                                    <label for="pg-phone">Votre téléphone</label>
+                                    <input id="pg-phone" type="tel" name="phone" autocomplete="tel">
+                                </div>
+                                <div class="pg-field">
+                                    <label for="pg-msg">Votre message*</label>
+                                    <textarea id="pg-msg" name="message" rows="4" required></textarea>
+                                </div>
+                                <button class="btn btn-base-color btn-medium btn-box-shadow btn-round-edge w-100 mt-10px" type="submit">Envoyer le message</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="position-relative z-index-1 pt-50px lg-pt-30px md-pt-0 pb-0" id="don">
+        <section class="pg-support" id="don">
             <div class="container">
-                <div class="row justify-content-center"> 
-                    <div class="col-lg-5 pb-5 sm-pb-50px" data-anime='{"el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 200, "easing": "easeOutQuad" }'> 
-                        <span class="fs-15 fw-600 ls-05px text-uppercase text-dark-golden-yellow d-block mb-10px">Restons en contact</span>
-                        <h3 class="alt-font text-dark-gray">Une question, un don, un partenariat ?</h3>
-                        <p class="mb-30px">Cette page est une démonstration. Pour joindre ProGen Bénin, utilisez les coordonnées ci-dessous.</p>
-                        <div class="mt-4 w-90 lg-w-100" data-anime='{"el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 200, "easing": "easeOutQuad" }'>
-                            <div class="col icon-with-text-style-08 mb-25px">
-                                <div class="feature-box feature-box-left-icon-middle border-bottom pb-25px border-color-extra-medium-gray">
-                                    <div class="feature-box-icon me-20px">
-                                        <i class="bi bi-telephone-outbound icon-medium text-dark-gray"></i> 
-                                    </div>
-                                    <div class="feature-box-content">
-                                        <span>Téléphones</span>
-                                        <span class="d-block fw-500 fs-18"><a href="tel:+22969740000" class="text-dark-gray text-dark-gray-hover">+229 69 74 00 00</a></span>
-                                        <span class="d-block fw-500 fs-18"><a href="tel:+22994440303" class="text-dark-gray text-dark-gray-hover">+229 94 44 03 03</a></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col icon-with-text-style-08">
-                                <div class="feature-box feature-box-left-icon-middle">
-                                    <div class="feature-box-icon me-20px">
-                                        <i class="bi bi-envelope icon-medium text-dark-gray"></i> 
-                                    </div>
-                                    <div class="feature-box-content">
-                                        <span>E-mail</span>
-                                        <span class="d-block fw-500 fs-19"><a href="mailto:contact@progenbenin.org" class="text-dark-gray text-dark-gray-hover">contact@progenbenin.org</a></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="row justify-content-center mb-5 sm-mb-30px">
+                    <div class="col-xxl-6 col-xl-7 col-lg-8 text-center">
+                        <span class="pg-kicker">Agir avec nous</span>
+                        <h3 class="alt-font text-dark-gray mb-10px">Comment nous soutenir</h3>
+                        <p class="mb-0">Chaque soutien aide ProGen Bénin à protéger les droits des enfants et des femmes. Contactez-nous pour connaître les modalités.</p>
                     </div>
-                    <div class="col-lg-6 offset-lg-1 align-self-end contact-form-style-03" data-anime='{ "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 200, "easing": "easeOutQuad" }'> 
-                        <div class="bg-dark-gray box-shadow-double-large p-14 lg-p-10 border-radius-10px position-relative overflow-hidden">
-                            <h3 class="alt-font text-white">Envoyez un message</h3>
-                            <p class="text-white opacity-6 mb-30px">Formulaire démo — sans envoi backend.</p>
-                            <form action="email-templates/contact-form.php" method="post">
-                                <div class="position-relative form-group mb-20px">
-                                    <span class="form-icon text-white opacity-7"><i class="bi bi-emoji-smile"></i></span>
-                                    <input class="ps-0 border-radius-0px bg-transparent placeholder-light border-color-transparent-white-light fs-17 form-control required" type="text" name="name" placeholder="Votre nom*" />
-                                </div>
-                                <div class="position-relative form-group mb-20px">
-                                    <span class="form-icon text-white opacity-7"><i class="bi bi-envelope"></i></span>
-                                    <input class="ps-0 border-radius-0px bg-transparent placeholder-light border-color-transparent-white-light fs-17 form-control required" type="email" name="email" placeholder="Votre e-mail*" />
-                                </div>
-                                <div class="position-relative form-group mb-20px">
-                                    <span class="form-icon text-white opacity-7"><i class="bi bi-telephone"></i></span>
-                                    <input class="ps-0 border-radius-0px bg-transparent placeholder-light border-color-transparent-white-light fs-17 form-control" type="tel" name="phone" placeholder="Votre téléphone" />
-                                </div>
-                                <div class="position-relative form-group form-textarea mt-15px mb-0"> 
-                                    <textarea class="ps-0 border-radius-0px bg-transparent placeholder-light border-color-transparent-white-light fs-17 form-control" name="comment" placeholder="Votre message" rows="4"></textarea>
-                                    <span class="form-icon text-white opacity-7"><i class="bi bi-chat-square-dots"></i></span>
-                                    <input type="hidden" name="redirect" value="">
-                                    <button class="btn btn-base-color btn-medium btn-box-shadow btn-round-edge w-100 mt-30px submit" type="submit">Envoyer</button>
-                                    <div class="form-results mt-20px d-none"></div>
-                                </div>
-                            </form> 
-                        </div>
-                    </div>
-                </div> 
-            </div>
-        </section>
-        <section class="pt-0 pb-0">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-12"><div class="separator-line-1px bg-extra-medium-gray mt-0 mb-0"></div></div>
+                </div>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <div class="col"><div class="pg-support-card">
+                        <i class="bi bi-heart"></i>
+                        <h4>Faire un don</h4>
+                        <p>Écrivez-nous ou appelez-nous : nous vous indiquerons comment faire un don en toute transparence.</p>
+                        <a href="mailto:contact@progenbenin.org?subject=Faire%20un%20don" class="pg-link">Nous écrire <i class="fa-solid fa-arrow-right"></i></a>
+                    </div></div>
+                    <div class="col"><div class="pg-support-card">
+                        <i class="bi bi-emoji-smile"></i>
+                        <h4>Parrainer un enfant</h4>
+                        <p>Le programme Give a Smile organise le parrainage scolaire d'enfants en situations difficiles.</p>
+                        <a href="mailto:contact@progenbenin.org?subject=Parrainage%20scolaire" class="pg-link">En savoir plus <i class="fa-solid fa-arrow-right"></i></a>
+                    </div></div>
+                    <div class="col"><div class="pg-support-card">
+                        <i class="bi bi-people"></i>
+                        <h4>Devenir partenaire</h4>
+                        <p>Associations, écoles, entreprises : construisons ensemble des actions pour l'éducation et la santé.</p>
+                        <a href="mailto:contact@progenbenin.org?subject=Partenariat" class="pg-link">Proposer un partenariat <i class="fa-solid fa-arrow-right"></i></a>
+                    </div></div>
                 </div>
             </div>
         </section>
@@ -167,7 +201,7 @@
             <div class="container position-relative">
                 <div class="row justify-content-center pt-5 pb-5 md-pt-45px md-pb-50px text-center text-sm-start">
                     <div class="col-lg-3 col-md-12 col-sm-6 d-flex flex-column flex-md-row flex-lg-column align-items-md-center align-items-lg-start last-paragraph-no-margin md-mb-35px">
-                        <a href="index.html" class="footer-logo d-inline-block xs-mb-15px"><img src="images/progen/logo.webp" alt="ProGen Bénin" style="max-height:56px;"></a>
+                        <a href="index.html" class="footer-logo pg-footer-logo d-inline-block xs-mb-15px"><img loading="lazy" src="images/progen/logo.webp" alt="ProGen Bénin" style="max-height:48px;"></a>
                         <div class="mt-auto ms-md-auto ms-lg-0 ms-0">
                             <span class="fs-14 text-uppercase text-white fw-500 ls-1px">ONG enregistrée</span>
                             <h6 class="alt-font fw-400 text-base-color mb-0">Depuis 2017</h6>
@@ -185,7 +219,7 @@
                     </div>
                     <div class="col-xxl-2 col-lg-3 col-md-4 col-sm-6 last-paragraph-no-margin">
                         <span class="d-block text-white mb-15px fs-14 text-uppercase fw-500 ls-1px">Navigation</span>
-                        <ul class="footer-navbar flex-column align-items-sm-start">
+                        <ul class="footer-navbar pg-footer-col flex-column align-items-sm-start">
                             <li class="nav-item"><a href="demo-charity-causes.html" class="nav-link p-0 mb-5px">Projets</a></li>
                             <li class="nav-item"><a href="demo-charity-volunteer.html" class="nav-link p-0 mb-5px">Équipe</a></li>
                             <li class="nav-item"><a href="demo-charity-contact.html" class="nav-link p-0">Contact</a></li>

@@ -1,4 +1,7 @@
 [build]
+  # Site statique : aucun build (le package.json est celui du template Crafto).
+  # Cette ligne prime sur la commande "npm run build" éventuellement saisie dans l'interface Netlify.
+  command = "echo 'Site statique : pas de build'"
   publish = "."
 
 # Empêche l'accès public aux fichiers de travail / sources
