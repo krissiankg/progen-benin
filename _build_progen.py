@@ -159,16 +159,21 @@ FOOTER = '''        <!-- start footer -->
 '''
 
 def page_title(h1, h2, bg="images/progen/about-16-1.jpg"):
-    return f'''        <section class="page-title-big-typography cover-background" style="background-image: url({bg})">
-            <div class="opacity-extra-medium bg-gradient-dark-transparent"></div>
+    # Bandeau « mosaïque » : texte à gauche, photo à taille native à droite (pas de fond étiré).
+    return f'''        <section class="pg-hero pg-banner top-space-padding">
             <div class="container">
-                <div class="row align-items-center small-screen">
-                    <div class="col-10 col-sm-12 position-relative page-title-extra-large">
-                        <h1 class="alt-font text-white mb-10px ls-minus-1px" data-fancy-text='{{ "opacity": [0, 1], "translateY": [50, 0], "filter": ["blur(20px)", "blur(0px)"], "string": ["{h1}"], "duration": 500, "delay": 0, "speed": 50, "easing": "easeOutQuad" }}'></h1>
-                        <h2 class="mb-0 xs-w-85 text-white" data-anime='{{ "translateY": [15, 0], "opacity": [0,1], "duration": 600, "delay": 300, "staggervalue": 200, "easing": "easeOutQuad" }}'>{h2}</h2>
+                <div class="row align-items-center pg-banner-inner">
+                    <div class="col-lg-8 col-12">
+                        <div class="pg-eyebrow">ProGen Bénin</div>
+                        <h1 class="pg-title pg-title--sm" data-fancy-text='{{ "opacity": [0, 1], "translateY": [30, 0], "filter": ["blur(16px)", "blur(0px)"], "string": ["{h1}"], "duration": 500, "delay": 0, "speed": 50, "easing": "easeOutQuad" }}'>{h1}</h1>
+                        <p class="pg-lead mb-0" data-anime='{{ "translateY": [15, 0], "opacity": [0,1], "duration": 600, "delay": 300, "staggervalue": 200, "easing": "easeOutQuad" }}'>{h2}</p>
+                    </div>
+                    <div class="col-lg-4 d-none d-lg-block">
+                        <figure class="pg-card pg-banner-photo"><img src="{bg}" alt="" loading="eager"></figure>
                     </div>
                 </div>
             </div>
+            <div class="pg-hero-wave" aria-hidden="true"><svg viewBox="0 0 1440 54" preserveAspectRatio="none"><path d="M0 54V30C240 6 480 0 720 12s480 30 720 6v36z" fill="#fff"/></svg></div>
         </section>
 '''
 

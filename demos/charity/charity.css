@@ -469,3 +469,19 @@ footer .medium-icon li {
     .pg-card--c { flex-basis: 230px; }
     .pg-ring, .pg-badge { display: none; }
 }
+
+/* Bandeau des pages intérieures (même langage visuel que le hero) */
+.pg-banner-inner { min-height: 300px; padding: 50px 0 80px; }
+.pg-title--sm { font-size: clamp(36px, 4.4vw, 62px); margin-bottom: 16px; }
+.pg-banner .pg-lead { font-size: 20px; margin-bottom: 0; }
+.pg-banner-photo {
+    position: relative;
+    width: 300px;
+    height: 225px;
+    margin: 0 0 0 auto;
+    transform: rotate(2.5deg);
+    animation: none;
+}
+@media (max-width: 991px) {
+    .pg-banner-inner { min-height: 0; padding: 30px 0 70px; }
+}
