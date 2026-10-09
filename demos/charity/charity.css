@@ -509,3 +509,137 @@ footer .medium-icon li {
 .footer-navbar.pg-footer-col .nav-item { margin: 0 0 8px; }
 .pg-feature-img[alt="Formation"] { object-position: 50% 42%; }
 .pg-feature-img[alt="Femmes"] { object-position: 50% 22%; }
+
+/* ===================================
+    Galerie : grille régulière + lightbox
+====================================== */
+.pg-gallery-section { padding: 70px 0 100px; background: #fff; }
+.pg-gallery {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+.pg-gallery-item { margin: 0; padding: 0; }
+.pg-gallery-link {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #0b1f4a;
+    box-shadow: 0 10px 24px -14px rgba(5, 36, 100, .45);
+}
+.pg-gallery-link img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .6s cubic-bezier(.2, .7, .2, 1);
+}
+.pg-gallery-link:hover img, .pg-gallery-link:focus-visible img { transform: scale(1.06); }
+.pg-gallery-caption {
+    position: absolute;
+    inset: auto 0 0 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 36px 14px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(0deg, rgba(5, 20, 55, .85), rgba(5, 20, 55, 0));
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity .3s ease, transform .3s ease;
+}
+.pg-gallery-link:hover .pg-gallery-caption, .pg-gallery-link:focus-visible .pg-gallery-caption { opacity: 1; transform: none; }
+@media (hover: none) { .pg-gallery-caption { opacity: 1; transform: none; font-size: 12px; padding-top: 28px; } }
+@media (max-width: 991px) { .pg-gallery { grid-template-columns: repeat(3, 1fr); gap: 14px; } }
+@media (max-width: 575px) { .pg-gallery { grid-template-columns: repeat(2, 1fr); gap: 10px; } .pg-gallery-section { padding: 40px 0 70px; } }
+
+/* ===================================
+    Contact & soutien
+====================================== */
+.pg-contact { padding: 70px 0 60px; background: #fff; }
+.pg-kicker {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #b7881d;
+}
+.pg-contact-list { list-style: none; margin: 0; padding: 0; }
+.pg-contact-list li {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    padding: 20px 0;
+    border-bottom: 1px solid #e4e1d8;
+}
+.pg-contact-list li:last-child { border-bottom: 0; }
+.pg-contact-list > li > i { font-size: 30px; line-height: 1; color: #1f4a3c; margin-top: 4px; }
+.pg-contact-list span { display: block; font-size: 14px; color: #7c7a75; margin-bottom: 2px; }
+.pg-contact-list a, .pg-contact-list strong { display: block; font-size: 19px; font-weight: 500; color: #384744; }
+.pg-contact-list a:hover { color: #b7881d; }
+.pg-form-card {
+    padding: 48px;
+    border-radius: 16px;
+    background: linear-gradient(160deg, #0b2a5c 0%, #1f4a3c 120%);
+    box-shadow: 0 30px 60px -28px rgba(5, 36, 100, .6);
+}
+.pg-field { margin-bottom: 20px; }
+.pg-field label { display: block; margin-bottom: 6px; font-size: 14px; font-weight: 500; color: rgba(255, 255, 255, .85); }
+.pg-field input, .pg-field textarea {
+    width: 100%;
+    padding: 12px 14px;
+    font: inherit;
+    font-size: 16px;
+    color: #fff;
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .25);
+    border-radius: 8px;
+    outline: none;
+    transition: border-color .2s, background .2s;
+}
+.pg-field input:focus, .pg-field textarea:focus { border-color: #fbcc36; background: rgba(255, 255, 255, .13); }
+.pg-field input:user-invalid, .pg-field textarea:user-invalid { border-color: #ff8a80; }
+.pg-hp { position: absolute; left: -9999px; height: 0; overflow: hidden; }
+@media (max-width: 575px) { .pg-form-card { padding: 30px 22px; } }
+
+.pg-support { padding: 80px 0 100px; background: #faf6ec; }
+.pg-support-card {
+    height: 100%;
+    padding: 36px 30px;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 16px 36px -22px rgba(5, 36, 100, .35);
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+.pg-support-card:hover { transform: translateY(-4px); box-shadow: 0 24px 44px -22px rgba(5, 36, 100, .45); }
+.pg-support-card > i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    margin-bottom: 20px;
+    font-size: 26px;
+    color: #fff;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #1f4a3c, #b7881d);
+}
+.pg-support-card h4 { font-family: var(--alt-font); font-size: 22px; color: #384744; margin-bottom: 10px; }
+.pg-support-card p { margin-bottom: 18px; }
+.pg-link { font-weight: 700; font-size: 14px; letter-spacing: .5px; text-transform: uppercase; color: #384744; }
+.pg-link i { margin-left: 6px; transition: transform .25s; }
+.pg-link:hover { color: #b7881d; }
+.pg-link:hover i { transform: translateX(4px); }
+
+/* pages « merci » et 404 */
+.pg-big-icon { display: block; font-size: 72px; line-height: 1; margin-bottom: 20px; color: #1f4a3c; }
+.pg-404 { font-family: var(--alt-font); font-size: clamp(90px, 16vw, 170px); line-height: 1; margin-bottom: 10px; background: linear-gradient(90deg, #052464, #b7881d); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
